@@ -1,0 +1,38 @@
+Building DAG of jobs...
+Using shell: /home/giacomocastagnetti/.nextstrain/runtimes/conda/env/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job         count    min threads    max threads
+--------  -------  -------------  -------------
+refining        1              1              1
+total           1              1              1
+
+Select jobs to execute...
+
+[Wed Jul 19 09:59:36 2023]
+rule refining:
+    input: results/aligned.fasta, results/raw_tree.nwk, results/filtered_metadata.csv
+    output: results/refined_tree.nwk, results/branch_lengths.json
+    jobid: 0
+    reason: Code has changed since last execution
+    resources: tmpdir=/tmp
+
+[Wed Jul 19 09:59:37 2023]
+Error in rule refining:
+    jobid: 0
+    input: results/aligned.fasta, results/raw_tree.nwk, results/filtered_metadata.csv
+    output: results/refined_tree.nwk, results/branch_lengths.json
+    shell:
+        
+        augur refine            --alignment results/aligned.fasta            --tree results/raw_tree.nwk            --metadata results/filtered_metadata.csv            --metadata-id-columns 'Accession'            --output-tree results/refined_tree.nwk            --output-node-data results/branch_lengths.json
+            --root best            --covariance            --precision 3            --branch-length-inference auto
+
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Removing output files of failed job refining since they might be corrupted:
+results/refined_tree.nwk, results/branch_lengths.json
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2023-07-19T095936.340287.snakemake.log

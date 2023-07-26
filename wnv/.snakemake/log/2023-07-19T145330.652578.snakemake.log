@@ -1,0 +1,119 @@
+Building DAG of jobs...
+Using shell: /home/giacomocastagnetti/.nextstrain/runtimes/conda/env/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job               count    min threads    max threads
+--------------  -------  -------------  -------------
+aligning              1              1              1
+all                   1              1              1
+build_tree            1              1              1
+export                1              1              1
+filtering             1              1              1
+find_ancestors        1              1              1
+refining              1              1              1
+traits                1              1              1
+translating           1              1              1
+total                 9              1              1
+
+Select jobs to execute...
+
+[Wed Jul 19 14:53:30 2023]
+rule filtering:
+    input: data/sequences.fasta, results/index.tsv, data/processed_metadata.csv
+    output: results/filtered_sequences.fa, results/filtered_metadata.csv
+    jobid: 4
+    reason: Updated input files: data/processed_metadata.csv
+    resources: tmpdir=/tmp
+
+[Wed Jul 19 14:53:31 2023]
+Finished job 4.
+1 of 9 steps (11%) done
+Select jobs to execute...
+
+[Wed Jul 19 14:53:31 2023]
+rule aligning:
+    input: results/filtered_sequences.fa, data/GCF_000875385.1_ViralProj30293_genomic.fna
+    output: results/aligned.fasta
+    jobid: 3
+    reason: Input files updated by another job: results/filtered_sequences.fa
+    resources: tmpdir=/tmp
+
+[Wed Jul 19 14:53:38 2023]
+Finished job 3.
+2 of 9 steps (22%) done
+Select jobs to execute...
+
+[Wed Jul 19 14:53:38 2023]
+rule build_tree:
+    input: results/aligned.fasta
+    output: results/raw_tree.nwk
+    jobid: 6
+    reason: Input files updated by another job: results/aligned.fasta
+    resources: tmpdir=/tmp
+
+[Wed Jul 19 14:53:40 2023]
+Finished job 6.
+3 of 9 steps (33%) done
+Select jobs to execute...
+
+[Wed Jul 19 14:53:40 2023]
+rule refining:
+    input: results/aligned.fasta, results/raw_tree.nwk, results/filtered_metadata.csv
+    output: results/refined_tree.nwk, results/branch_lengths.json
+    jobid: 2
+    reason: Input files updated by another job: results/filtered_metadata.csv, results/raw_tree.nwk, results/aligned.fasta
+    resources: tmpdir=/tmp
+
+[Wed Jul 19 14:54:06 2023]
+Finished job 2.
+4 of 9 steps (44%) done
+Select jobs to execute...
+
+[Wed Jul 19 14:54:06 2023]
+rule find_ancestors:
+    input: results/refined_tree.nwk, results/aligned.fasta
+    output: results/ancestral_node_data.json, results/ancestral_sequence.fa
+    jobid: 7
+    reason: Input files updated by another job: results/refined_tree.nwk, results/aligned.fasta
+    resources: tmpdir=/tmp
+
+[Wed Jul 19 14:54:09 2023]
+Finished job 7.
+5 of 9 steps (56%) done
+Select jobs to execute...
+
+[Wed Jul 19 14:54:09 2023]
+rule translating:
+    input: results/refined_tree.nwk, results/ancestral_node_data.json, data/annotated_genome.gff
+    output: results/translation_node_data.json
+    jobid: 8
+    reason: Input files updated by another job: results/ancestral_node_data.json, results/refined_tree.nwk
+    resources: tmpdir=/tmp
+
+[Wed Jul 19 14:54:10 2023]
+Finished job 8.
+6 of 9 steps (67%) done
+Select jobs to execute...
+
+[Wed Jul 19 14:54:10 2023]
+rule traits:
+    input: results/refined_tree.nwk, results/filtered_metadata.csv
+    output: results/regoin_node_data.json
+    jobid: 9
+    reason: Missing output files: results/regoin_node_data.json; Input files updated by another job: results/filtered_metadata.csv, results/refined_tree.nwk
+    resources: tmpdir=/tmp
+
+[Wed Jul 19 14:54:11 2023]
+Error in rule traits:
+    jobid: 9
+    input: results/refined_tree.nwk, results/filtered_metadata.csv
+    output: results/regoin_node_data.json
+    shell:
+        
+        augur traits            --tree results/refined_tree.nwk            --metadata results/filtered_metadata.csv            --columns Region Country            --confidence            --output results/regoin_node_data.json        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2023-07-19T145330.652578.snakemake.log

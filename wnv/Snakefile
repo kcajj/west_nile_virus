@@ -1,0 +1,174 @@
+sequences_file = 'data/sequences.fasta'
+metadata_file = 'data/processed_metadata.csv'
+reference_file = 'config/reference.gb'
+annotation_file = 'config/reference.gb'
+lat_longs_file = 'config/lat_longs.tsv'
+rule all:
+    input:
+        auspice_json = "auspice/wnv.json",
+
+rule indexing:
+    input:
+        sequences = sequences_file
+    output:
+        index = 'results/index.tsv'
+    shell:
+        """
+        augur index \
+            --sequences {input.sequences}\
+            --output {output.index}\
+            --verbose
+        """
+
+rule filtering:
+    input:
+        sequences = sequences_file,
+        index = rules.indexing.output.index,
+        metadata = metadata_file
+    output:
+        filtered_sequences = 'results/filtered_sequences.fa',
+        filtered_metadata = 'results/filtered_metadata.csv'
+    shell:
+        """
+        augur filter \
+            --sequences {input.sequences}\
+            --sequence-index {input.index}\
+            --metadata {input.metadata}\
+            --metadata-id-columns 'Accession'\
+            --group-by Country\
+            --subsample-max-sequences 1000\
+            --probabilistic-sampling\
+            --output {output.filtered_sequences}\
+            --output-metadata {output.filtered_metadata}
+        """
+
+rule aligning:
+    input:
+        sequences = rules.filtering.output.filtered_sequences,
+        reference = reference_file
+    output:
+        aligned = 'results/aligned.fasta'
+    shell:
+        """
+        augur align \
+            --sequences {input.sequences}\
+            --output {output.aligned}\
+            --method mafft\
+            --reference-sequence {input.reference}\
+            --fill-gaps\
+            --remove-reference
+        """
+
+rule build_tree:
+    input:
+        aligned = rules.aligning.output.aligned
+    output:
+        raw_tree = 'results/raw_tree.nwk'
+    shell:
+        """
+        augur tree\
+            --alignment {input.aligned}\
+            --method iqtree\
+            --output {output.raw_tree}
+        """
+    
+rule refining:
+    input:
+        aligned = rules.aligning.output.aligned,
+        tree = rules.build_tree.output.raw_tree,
+        metadata = rules.filtering.output.filtered_metadata
+    output:
+        tree = 'results/refined_tree.nwk',
+        branches = 'results/branch_lengths.json'
+    shell:
+        """
+        augur refine\
+            --alignment {input.aligned}\
+            --tree {input.tree}\
+            --metadata {input.metadata}\
+            --metadata-id-columns 'Accession'\
+            --output-tree {output.tree}\
+            --output-node-data {output.branches}\
+            --timetree\
+            --root 'min_dev'\
+            --clock-rate 0.0004\
+            --precision 3\
+            --verbosity 2\
+            --clock-filter-iqd 3\
+            --branch-length-inference auto
+        """
+
+rule find_ancestors:
+    input:
+        tree = rules.refining.output.tree,
+        aligned = rules.aligning.output.aligned
+    output:
+        ancestral_node_data = 'results/ancestral_node_data.json',
+        ancestral_sequences = 'results/ancestral_sequence.fa'
+    shell:
+        """
+        augur ancestral\
+            --tree {input.tree}\
+            --alignment {input.aligned}\
+            --output-node-data {output.ancestral_node_data}\
+            --output-sequences {output.ancestral_sequences}\
+            --inference joint
+        """
+
+rule translating:
+    input:
+        tree = rules.refining.output.tree,
+        ancestral_data = rules.find_ancestors.output.ancestral_node_data,
+        annotation = annotation_file
+    output:
+        translation_node_data = 'results/translation_node_data.json',
+    shell:
+        """
+        augur translate\
+            --tree {input.tree}\
+            --ancestral-sequences {input.ancestral_data}\
+            --reference-sequence {input.annotation}\
+            --output-node-data {output.translation_node_data}\
+        """
+
+rule traits:
+    input:
+        tree = rules.refining.output.tree,
+        metadata = rules.filtering.output.filtered_metadata
+    output:
+        node_data = 'results/node_data.json'
+    shell:
+        """
+        augur traits\
+            --tree {input.tree}\
+            --metadata {input.metadata}\
+            --metadata-id-columns 'Accession'\
+            --columns Country Division Host\
+            --confidence\
+            --output-node-data {output.node_data}
+        """
+
+rule export:
+    input:
+        tree = rules.refining.output.tree,
+        metadata = rules.filtering.output.filtered_metadata,
+        branch_lengths = rules.refining.output.branches,
+        nt_muts = rules.find_ancestors.output.ancestral_node_data,
+        aa_muts = rules.translating.output.translation_node_data,
+        traits = rules.traits.output.node_data,
+        lat_longs = lat_longs_file
+    output:
+        auspice_json = rules.all.input.auspice_json
+    shell:
+        """
+        augur export v2 \
+            --tree {input.tree} \
+            --metadata {input.metadata} \
+            --metadata-id-columns 'Accession'\
+            --node-data {input.branch_lengths} {input.traits} {input.nt_muts} {input.aa_muts}\
+            --include-root-sequence \
+            --geo-resolution Country Division\
+            --color-by Country Division Host\
+            --lat-longs {input.lat_longs}\
+            --output {output.auspice_json}
+        """

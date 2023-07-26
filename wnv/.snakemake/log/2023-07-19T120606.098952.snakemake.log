@@ -1,0 +1,48 @@
+Building DAG of jobs...
+Using shell: /home/giacomocastagnetti/.nextstrain/runtimes/conda/env/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job               count    min threads    max threads
+--------------  -------  -------------  -------------
+find_ancestors        1              1              1
+translating           1              1              1
+total                 2              1              1
+
+Select jobs to execute...
+
+[Wed Jul 19 12:06:06 2023]
+rule find_ancestors:
+    input: results/refined_tree.nwk, results/aligned.fasta
+    output: results/ancestral_node_data.json, results/ancestral_sequence.fa
+    jobid: 6
+    reason: Missing output files: results/ancestral_sequence.fa
+    resources: tmpdir=/tmp
+
+[Wed Jul 19 12:06:08 2023]
+Finished job 6.
+1 of 2 steps (50%) done
+Select jobs to execute...
+
+[Wed Jul 19 12:06:08 2023]
+rule translating:
+    input: results/refined_tree.nwk, results/ancestral_sequence.fa, data/annotated_genome.gff
+    output: results/translation_node_data.json, results/translation_alignment
+    jobid: 0
+    reason: Missing output files: results/translation_alignment, results/translation_node_data.json; Input files updated by another job: results/ancestral_sequence.fa
+    resources: tmpdir=/tmp
+
+[Wed Jul 19 12:06:08 2023]
+Error in rule translating:
+    jobid: 0
+    input: results/refined_tree.nwk, results/ancestral_sequence.fa, data/annotated_genome.gff
+    output: results/translation_node_data.json, results/translation_alignment
+    shell:
+        
+        augur translate            --tree results/refined_tree.nwk            --ancestral-sequences results/ancestral_sequence.fa            --reference-sequence data/annotated_genome.gff            --output-node-data results/translation_node_data.json            --alignment-output results/translation_alignment
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2023-07-19T120606.098952.snakemake.log

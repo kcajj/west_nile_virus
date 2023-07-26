@@ -1,0 +1,24 @@
+Building DAG of jobs...
+Using shell: /home/giacomocastagnetti/.nextstrain/runtimes/conda/env/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job         count    min threads    max threads
+--------  -------  -------------  -------------
+refining        1              1              1
+total           1              1              1
+
+Select jobs to execute...
+
+[Wed Jul 19 10:28:28 2023]
+rule refining:
+    input: results/aligned.fasta, results/raw_tree.nwk, results/filtered_metadata.csv
+    output: results/refined_tree.nwk, results/branch_lengths.json
+    jobid: 0
+    reason: Code has changed since last execution
+    resources: tmpdir=/tmp
+
+[Wed Jul 19 10:28:51 2023]
+Finished job 0.
+1 of 1 steps (100%) done
+Complete log: .snakemake/log/2023-07-19T102828.423060.snakemake.log

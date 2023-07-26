@@ -1,0 +1,2 @@
+SyntaxError in file /home/giacomocastagnetti/Downloads/wnv/Snakefile, line 139:
+Command must be given as string after the shell keyword. (Snakefile, line 139)

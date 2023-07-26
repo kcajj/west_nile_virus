@@ -1,0 +1,44 @@
+Building DAG of jobs...
+Using shell: /home/giacomocastagnetti/.nextstrain/runtimes/conda/env/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job               count    min threads    max threads
+--------------  -------  -------------  -------------
+aligning              1              1              1
+all                   1              1              1
+build_tree            1              1              1
+export                1              1              1
+filtering             1              1              1
+find_ancestors        1              1              1
+refining              1              1              1
+traits                1              1              1
+translating           1              1              1
+total                 9              1              1
+
+Select jobs to execute...
+
+[Wed Jul 19 16:30:04 2023]
+rule filtering:
+    input: data/sequences.fasta, results/index.tsv, data/processed_metadata.csv
+    output: results/filtered_sequences.fa, results/filtered_metadata.csv
+    jobid: 4
+    reason: Missing output files: results/filtered_sequences.fa, results/filtered_metadata.csv
+    resources: tmpdir=/tmp
+
+[Wed Jul 19 16:30:05 2023]
+Error in rule filtering:
+    jobid: 4
+    input: data/sequences.fasta, results/index.tsv, data/processed_metadata.csv
+    output: results/filtered_sequences.fa, results/filtered_metadata.csv
+    shell:
+        
+        augur filter             --sequences data/sequences.fasta            --sequence-index results/index.tsv            --metadata data/processed_metadata.csv            --metadata-id-columns 'Accession'            --group-by Country year            --subsample-max-sequences 500            --probabilistic-sampling            --exclude-ambiguous-dates-by year             --output results/filtered_sequences.fa            --output-metadata results/filtered_metadata.csv
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Removing output files of failed job filtering since they might be corrupted:
+results/filtered_metadata.csv
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2023-07-19T163004.774048.snakemake.log

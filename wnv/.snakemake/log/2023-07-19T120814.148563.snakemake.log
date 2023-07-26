@@ -1,0 +1,25 @@
+Building DAG of jobs...
+Using shell: /home/giacomocastagnetti/.nextstrain/runtimes/conda/env/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job            count    min threads    max threads
+-----------  -------  -------------  -------------
+translating        1              1              1
+total              1              1              1
+
+Select jobs to execute...
+
+[Wed Jul 19 12:08:14 2023]
+rule translating:
+    input: results/refined_tree.nwk, results/ancestral_node_data.json, data/annotated_genome.gff
+    output: results/translation_node_data.json, results/translation_alignment.fa
+    jobid: 0
+    reason: Missing output files: results/translation_node_data.json, results/translation_alignment.fa
+    resources: tmpdir=/tmp
+
+RuleException in rule translating in file /home/giacomocastagnetti/Downloads/wnv/Snakefile, line 112:
+AttributeError: 'InputFiles' object has no attribute 'ancestral_sequences', when formatting the following:
+
+        augur translate            --tree {input.tree}            --ancestral-sequences {input.ancestral_sequences}            --reference-sequence {input.annotation}            --output-node-data {output.node_data}            --alignment-output {output.alignment}
+        

@@ -1,0 +1,29 @@
+Building DAG of jobs...
+Using shell: /home/giacomocastagnetti/.nextstrain/runtimes/conda/env/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job            count    min threads    max threads
+-----------  -------  -------------  -------------
+translating        1              1              1
+total              1              1              1
+
+Select jobs to execute...
+
+[Wed Jul 19 12:08:44 2023]
+rule translating:
+    input: results/refined_tree.nwk, results/ancestral_node_data.json, data/annotated_genome.gff
+    output: results/translation_node_data.json, results/translation_alignment.fa
+    jobid: 0
+    reason: Missing output files: results/translation_alignment.fa, results/translation_node_data.json
+    resources: tmpdir=/tmp
+
+Waiting at most 5 seconds for missing files.
+MissingOutputException in rule translating in file /home/giacomocastagnetti/Downloads/wnv/Snakefile, line 112:
+Job 0 completed successfully, but some output files are missing. Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+results/translation_alignment.fa
+Removing output files of failed job translating since they might be corrupted:
+results/translation_node_data.json
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2023-07-19T120843.884927.snakemake.log
