@@ -57,9 +57,12 @@ Deepened analyses were carried out on the mutations, a rigorous way of defining 
 
 With the [KaKs_ratio.py](KaKs_ratio.py) script, we compute the ratio in a sliding window over the genome.
 
+![Dn/Ds](images/Figure_1.jpeg)
+
 ## Secondary structures
 
 With the [secondary_structures.py](secondary_structures.py) script, we compute the number of synonymous mutations in a sliding window over the genome.
 
 The regions that have less synonymous mutations are the ones that for some reason, not related to the aminoacid they encode, are strongly conserved. The most common interpretation to these regions is that they are part of important RNA secondary structures, in such case, nucleotides needs to pair and every type of mutation is bad for the hairpin.
 
+![secondary_structures](images/Figure_2.jpeg)
