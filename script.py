@@ -39,7 +39,7 @@ with open('wnv/results/ancestral_node_data.json') as augur:
             position=int(mutation[1:-1])
 
             if position>=cds_start and position<cds_end:
-                if (position-cds_start)%3==0:
+                if (position-cds_start)%3==2:
                     if node in children_of_root:
                         synonym_counts[from_nt+to_nt]+=1/2
                         synonym_counts[to_nt+from_nt]+=1/2
@@ -78,9 +78,6 @@ print()
 print()
 print()
 
-
-#my try of computing the equilibrium probabilities
-
 Q=create_mut_matrix(alphabet)
 for mut in Q:
     Q[mut]=(synonym_counts[mut]/total_synonym_mut)
@@ -118,6 +115,9 @@ print('eigen values')
 e_val=np.linalg.eigvals(matrix)
 print(e_val)
 
+
+#my try of computing the equilibrium probabilities
+
 '''
 print('eigen vectors')
 e_vect=np.linalg.eig(matrix)[1]
@@ -154,7 +154,6 @@ print(final_function(100, p0, e_val, e_vect))
 #    return solutions
 #print(fun(100, e_vect, i_matrix))
 
-
 '''
 
 #######
@@ -165,7 +164,7 @@ print()
 print()
 
 revect=np.linalg.eig(matrix)[1]
-levect=np.linalg.eig(matrix.Tx)[1]
+levect=np.linalg.eig(matrix.T)[1]
 print('rev')
 print(revect[:,0]/sum(revect[:,0]))
 
