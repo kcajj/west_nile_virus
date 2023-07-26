@@ -1,6 +1,6 @@
 # West Nile virus
 
-This GitHub repository aims to sum up an evolutionary analysis performed on the West Nile virus.
+This GitHub repository aims to sum up an evolutionary analysis performed on the [West Nile virus](https://en.wikipedia.org/wiki/West_Nile_virus).
 
 This work is part of the Biozentrum Research Summer project 2023, at Richard Neher lab.
 
@@ -45,7 +45,7 @@ After having created the nextstrain workflow we shifted our focus on the mutatio
 
 Just by loading the tree and going though each node, we can see each mutation ever happened in the wnv sequence. In order to understand the evolution that happened in west nile virus we want to look at the regions that are free to change, with no selective pression, a rough way to do so, is to consider only the mutations happening in the third position of each codon.
 
-Each mutation is indicated as starting_nucleotide - position - mutated_nucleotide. We computed the mutation rates of each directed mutation (starting_nucleotide-->mutated_nucleotide), taking special care of the first set of mutations from the root: the root of a nextstrain tree corresponds to the sequence of one of the two branches (the longest one) and all of the mutations are considered in one direction from a child to the other, to have a more coherent count, we should count these mutations as occurring in both directions (1/2 for each direction).
+Each mutation is indicated as starting_nucleotide-position-mutated_nucleotide. We computed the mutation rates of each directed mutation (starting_nucleotide-->mutated_nucleotide), taking special care of the first set of mutations from the root: the root of a nextstrain tree corresponds to the sequence of one of the two branches (the longest one) and all of the mutations are considered in one direction from a child to the other, to have a more coherent count, we should count these mutations as occurring in both directions (1/2 for each direction).
 
 ## GTR model
 
@@ -55,8 +55,11 @@ A lot of formulas to write
 
 Deepened analyses were carried out on the mutations, a rigorous way of defining synonymous and non-synonymous mutations was implemented.
 
-With the [KaKs_ratio.py](KaKs_ratio.py) script, we compute the ratio over a sliding window in the genome.
+With the [KaKs_ratio.py](KaKs_ratio.py) script, we compute the ratio in a sliding window over the genome.
 
 ## Secondary structures
 
+With the [secondary_structures.py](secondary_structures.py) script, we compute the number of synonymous mutations in a sliding window over the genome.
+
+The regions that have less synonymous mutations are the ones that for some reason, not related to the aminoacid they encode, are strongly conserved. The most common interpretation to these regions is that they are part of important RNA secondary structures, in such case, nucleotides needs to pair and every type of mutation is bad for the hairpin.
 
