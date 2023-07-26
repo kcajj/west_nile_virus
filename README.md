@@ -18,7 +18,7 @@ The analysis consists in the following steps:
 
 [Nextstrain](https://nextstrain.org/) is an open-source project to harness the scientific and public health potential of pathogen genome data.
 
-We created a workflow using the West nile virus sequences that can be found on [NCBI_virus](https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?VirusLineage_ss=Viruses,%20taxid:10239&SeqType_s=Nucleotide), selecting for the sequences longer than 8000 basepairs. (Before starting the workflow a preliminary analysis on the sequences was performed, i.e. we roughly aligned and created a tree of the sequences to have a first impression about the data.)
+We created a workflow using the West nile virus sequences that can be found on [NCBI virus](https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?VirusLineage_ss=Viruses,%20taxid:10239&SeqType_s=Nucleotide), selecting for the sequences longer than 8000 basepairs. (Before starting the workflow a preliminary analysis on the sequences was performed, i.e. we roughly aligned and created a tree of the sequences to have a first impression about the data.)
 
 We worked on these [sequences](wnv/data/sequences.fasta) and this [metadata](wnv/data/metadata.csv), using this as reference [sequence](wnv/config/reference.gb).
 
@@ -50,6 +50,8 @@ Each mutation is indicated as starting_nucleotide-position-mutated_nucleotide. W
 ## GTR model
 
 A lot of formulas to write
+
+[eigen decomposition explanation](eigen_decomposition.ipynb)
 
 ## Dn/Ds
 
