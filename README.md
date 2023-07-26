@@ -20,9 +20,9 @@ The analysis consists in the following steps:
 
 We created a workflow using the West nile virus sequences that can be found on [NCBI virus](https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?VirusLineage_ss=Viruses,%20taxid:10239&SeqType_s=Nucleotide), selecting for the sequences longer than 8000 basepairs. (Before starting the workflow a preliminary analysis on the sequences was performed, i.e. we roughly aligned and created a tree of the sequences to have a first impression about the data.)
 
-We worked on these [sequences](wnv/data/sequences.fasta) and this [metadata](wnv/data/metadata.csv), using this as reference [sequence](wnv/config/reference.gb).
+We worked on these [sequences](wnv/data/sequences.fasta) and this [metadata](wnv/data/metadata.csv), using this [reference sequence](wnv/config/reference.gb).
 
-The metadata was not totally suitable for the nextstrain workflow, so we processed it a bit (mainly to make the Division information explicit) through a [python script](wnv/metadata_processing.py).
+The metadata was not totally suitable for the nextstrain workflow, so we processed it a bit (mainly to make the Division information explicit) through the [metadata_processing.py](wnv/metadata_processing.py) script.
 
 The workflow is in the form of a [Snakefile](wnv/Snakefile), the nextstrain functions that we used are:
 
