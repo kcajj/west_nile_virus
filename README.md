@@ -10,9 +10,9 @@ The analysis consists in the following steps:
 
 - Nextstrain workflow on west nile virus
 - Analysis of the mutations of the tree
-- GTR model
-- Dn/Ds
-- Research of secondary structures
+    - GTR model
+    - Dn/Ds
+    - Research of secondary structures
 
 ## Nextstrain
 
@@ -47,13 +47,13 @@ Just by loading the tree and going though each node, we can see each mutation ev
 
 Each mutation is indicated as starting_nucleotide-position-mutated_nucleotide. We computed the mutation rates of each directed mutation (starting_nucleotide-->mutated_nucleotide), taking special care of the first set of mutations from the root: the root of a nextstrain tree corresponds to the sequence of one of the two branches (the longest one) and all of the mutations are considered in one direction from a child to the other, to have a more coherent count, we should count these mutations as occurring in both directions (1/2 for each direction).
 
-## GTR model
+### GTR model
 
 A lot of formulas to write
 
 [eigen decomposition explanation](eigen_decomposition.ipynb)
 
-## Dn/Ds
+### Dn/Ds
 
 Deepened analyses were carried out on the mutations, a rigorous way of defining synonymous and non-synonymous mutations was implemented.
 
@@ -61,7 +61,7 @@ With the [KaKs_ratio.py](KaKs_ratio.py) script, we compute the ratio in a slidin
 
 ![Dn/Ds](images/Figure_2.jpeg)
 
-## Secondary structures
+### Secondary structures
 
 With the [secondary_structures.py](secondary_structures.py) script, we compute the number of synonymous mutations in a sliding window over the genome.
 
