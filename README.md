@@ -50,7 +50,7 @@ Each mutation is indicated as starting_nucleotide-position-mutated_nucleotide. W
 ### GTR model
 
 At this point we decided to use the mutation counts to build a [substitution model](https://en.wikipedia.org/wiki/Substitution_model#:~:text=Substitution%20models%20are%20used%20to,as%20Bayesian%20inference%20in%20phylogeny.) of the wnv evolution. In phylogeny, estimates of evolutionary distances (numbers of substitutions that have occurred since a pair of sequences diverged from a common ancestor) are typically calculated using substitution models. The model we created has two paramenters: $\Pi$, a vector with the frequences $\pi_i$ of each nucleotide in the sequence and Q a matrix which describes the rate at which bases of one type change into the bases of another type.
-On the rows of the matrix there are the rates of mutations from all the bases to a certain base, and on the diagonal we place the negative sum of these probabilities ($q_{ii}=-sum_jq_{ij}$). On the columns we have the mutation rates from a certain base to all the others.
+On the rows of the matrix there are the rates of mutations from all the bases to a certain base, and on the diagonal we place the negative sum of these probabilities ($q_{ii}=-\sum_{j}q_{ij}$). On the columns we have the mutation rates from a certain base to all the others.
 
 The multiplication of the rate matrix with the vector of base frequences, gives the rate of change of the nucleotide frequences: $\Pi'=Q*\Pi$
 
