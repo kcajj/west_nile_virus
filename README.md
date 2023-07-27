@@ -66,9 +66,9 @@ The equation that we need to solve is the following: $\Pi=e^{Q*t}*\Pi_0$
 
 We can solve this by expressing the matrix Q in its eigenbasis, we find the solution in this trivial state, and then we go back.
 
-If you go thorugh all the passages, you should obtain something like this: $\Pi=A_0*e^{D*t}*V}, where, V is a matrix with the eigenvectors of Q on the columns, D is the diagonalisation of Q and A_0 is the matrix containing the initial conditions (whatever condition we want, each possible initial state will give the same final equilibrium probabilities) expressed in eigenbasis.
+If you go thorugh all the passages, you should obtain something like this: $\Pi=A_0*e^{D*t}*V$, where, V is a matrix with the eigenvectors of Q on the columns, D is the diagonalisation of Q and A_0 is the matrix containing the initial conditions (whatever condition we want, each possible initial state will give the same final equilibrium probabilities) expressed in eigenbasis.
 
-The resulting formula is: $\P(t)=\sum a^0_i*e^{\lambda _i *t}*v_i$
+The resulting formula is: $\Pi(t)=\sum a^0_i*e^{\lambda _i *t}*v_i$
 
 In order to express the starting conditions in the eigenbasis we have to exploit the left and right eigenvectors of Q and one of their properties, these passages are very well explained in [this document](eigen_decomposition.ipynb)
 
@@ -94,11 +94,18 @@ As you can see from the results the Ka/Ks is very low in the whole sequence, thi
 
 ### Secondary structures
 
+Finally, we tried to search for regions in the wnv genome which were poor in synonymous mutations. The regions that have less synonymous mutations are the ones that for some reason, not related to the aminoacid they encode, are strongly conserved. The most common interpretation to these regions is that they are part of important RNA secondary structures, in such case, nucleotides needs to pair and every type of mutation is bad for the hairpin.
 
+With the [secondary_structures.py](secondary_structures.py) script, we compute the number of synonymous mutations (considering the whole wnv tree) in a sliding window over the genome, in the image below, this score is indicated with the blue line.
+The orange line indicates the number of positions in the reference sequence that admit a synonymous mutation, again considering a sliding window over the genome.
+The yellow dots are the scores of some windows in the genome, that have much less mutations with respect to the rest of the sequence. To spot these sites we considered the score of each window as an independent observation of a gaussian random varaible. We characterised the distribution of the whole sequence by measuring the mean and the standard deviation. The yellow dots corresponds to the realisations of such RV with a p value smaller than 0.01.
 
-With the [secondary_structures.py](secondary_structures.py) script, we compute the number of synonymous mutations in a sliding window over the genome.
+![secondary_structures_plot](images/Figure_1.jpeg)
 
-The regions that have less synonymous mutations are the ones that for some reason, not related to the aminoacid they encode, are strongly conserved. The most common interpretation to these regions is that they are part of important RNA secondary structures, in such case, nucleotides needs to pair and every type of mutation is bad for the hairpin.
+The conclusions we can get from this analysis is that there are two sites where likely some secondary structures are happening. You can see how, along the whole sequence, the blue and orange line follow more or less the same pattern of highs and lows, while in the two yellow spots there is a clear divergence. This proves that in such sites there is an actual deficiency of synonymous mutations.
 
-![secondary_structures](images/Figure_1.jpeg)
-
+Once having noticed this behaviour, we tried to make some hypotheses:
+- the first yellow area is very close to the 5-UTR region of the virus genome, in such region, it is known that secondary sturctures occur. Hence, this signal could be due to the end part of these structures that overlap with the starting codon.
+- to explore the second yellow site, spanning more or less from base 5371, to 3619, we tried to simulate the secondary structure profile of the region 5300-5700 of the wnv genome, the result that we obtained are represented below:
+![secondary_strucutre](images/Screenshot%20from%202023-07-26%2018-22-09.png)
+It is interesting to notice that indeed the middle part of this sequence seems to be highly involved in a hairpin structure.
