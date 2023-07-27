@@ -11,7 +11,7 @@ def create_mut_matrix(alphabet):
 
 def get_genetic_code(alphabet):
     genetic_code={}
-    with open('genetic-code.html') as page:
+    with open('images/genetic-code.html') as page:
         gencodepage=BeautifulSoup(page,'html.parser')
     table_rows=gencodepage.find_all('tr')
     for row in table_rows:

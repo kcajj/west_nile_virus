@@ -45,9 +45,14 @@ After having created the nextstrain workflow we shifted our focus on the mutatio
 
 Just by loading the tree and going though each node, we can see each mutation ever happened in the history of wnv sequences. In order to understand the evolution that happened in west nile virus we want to look at the regions that are free to change, with no selective pression, a rough way to do so, is to consider only the mutations happening in the third position of each codon.
 
-Each mutation is indicated as starting_nucleotide-position-mutated_nucleotide. We computed the mutation rates of each directed mutation (starting_nucleotide-->mutated_nucleotide), taking special care of the first set of mutations from the root: the root of a nextstrain tree corresponds to the sequence of one of the two branches (the longest one) and all of the mutations are considered in one direction from a child to the other, to have a more coherent count, we should count these mutations as occurring in both directions (1/2 for each direction).
+Each mutation is indicated as starting_nucleotide-position-mutated_nucleotide. We computed the mutation rates of each directed mutation (starting_nucleotide-->mutated_nucleotide), taking special care of the first set of mutations from the root: the root of a nextstrain tree corresponds to the sequence of one of the two branches (the longest one) and all of the mutations are considered in one direction from a child to the other. To have a more coherent count, we should count these mutations as occurring in both directions (1/2 for each direction).
 
 ### GTR model
+
+At this point we decided to use the mutation counts to build a [substitution model](https://en.wikipedia.org/wiki/Substitution_model#:~:text=Substitution%20models%20are%20used%20to,as%20Bayesian%20inference%20in%20phylogeny.) of the wnv evolution. In phylogeny, estimates of evolutionary distances (numbers of substitutions that have occurred since a pair of sequences diverged from a common ancestor) are typically calculated using substitution models. The model we created has two paramenters: $\pi$, a vector with the frequences of each nucleotide in the sequence and Q a matrix which describes the rate at which bases of one type change into the bases of another type.
+On the rows of the matrix there are the rates of mutations from all the bases to a certain base, and on the diagonal we place the negative sum of these probabilities. On the columns we have the mutation rates from a certain base to all the others.
+
+The multiplication of the rate matrix with the vector of base frequences, gives the rate of change of the nucleotide frequences: $\pi'=Q*\pi$
 
 A lot of formulas to write
 
@@ -70,3 +75,4 @@ With the [secondary_structures.py](secondary_structures.py) script, we compute t
 The regions that have less synonymous mutations are the ones that for some reason, not related to the aminoacid they encode, are strongly conserved. The most common interpretation to these regions is that they are part of important RNA secondary structures, in such case, nucleotides needs to pair and every type of mutation is bad for the hairpin.
 
 ![secondary_structures](images/Figure_1.jpeg)
+
