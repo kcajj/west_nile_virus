@@ -53,7 +53,7 @@ def plot_secondary_structures(k,reference,cds_start,cds_end,alphabet,tree_node_d
         synonyms[pos]=synonym_sum
     
     mean=np.mean(scores)
-    print('mean of secondary mutation occurrence:', mean)
+    print('mean of synonym mutation occurring in', k, 'bp :', mean)
     sd=np.std(scores)
     print('sd:',sd)
 

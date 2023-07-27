@@ -1,11 +1,8 @@
-import json
 from Bio import SeqIO
-import numpy as np
 import matplotlib.pyplot as plt
 
 from nucleotides_rates import get_nuc_usage
-from mutation_rates import get_genetic_code, get_mutation_rates
-from eigen_decomposition import plot_GTR
+from GTR import plot_GTR
 from secondary_structures import plot_secondary_structures
 from KaKs_ratio import plot_dnds_ratio
 
@@ -20,11 +17,10 @@ nuc_empirical_sequences=get_nuc_usage(reference,cds_start,cds_end,alphabet)
 
 plot_GTR(reference,cds_start,cds_end,alphabet,tree_node_data)
 
-secondary=plot_secondary_structures(k,reference,cds_start,cds_end,alphabet,tree_node_data)
-print(secondary['sec_struct'])
-print('the secondary structure seems to extend from', 3475+96, 'to', 3523+96)
-
 dnds=plot_dnds_ratio(k,reference,cds_start,cds_end,alphabet,tree_node_data)
-print(dnds['avg_ratio'])
+print("average Dn/Ds ratio", dnds['avg_ratio'])
+
+secondary=plot_secondary_structures(k,reference,cds_start,cds_end,alphabet,tree_node_data)
+print('the secondary structure seems to extend from', 3475+96, 'to', 3523+96)
 
 plt.show()

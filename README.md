@@ -47,6 +47,8 @@ Just by loading the tree and going though each node, we can see each mutation ev
 
 Each mutation is indicated as starting_nucleotide-position-mutated_nucleotide. We computed the mutation rates of each directed mutation (starting_nucleotide-->mutated_nucleotide), taking special care of the first set of mutations from the root: the root of a nextstrain tree corresponds to the sequence of one of the two branches (the longest one) and all of the mutations are considered in one direction from a child to the other. To have a more coherent count, we should count these mutations as occurring in both directions (1/2 for each direction).
 
+All of the successive analyses were summarised in the [final_script.py](final_script.py), you can run it to see all the passages and you can try to modify the parameters a bit.
+
 ### GTR model
 
 At this point we decided to use the mutation counts to build a [substitution model](https://en.wikipedia.org/wiki/Substitution_model#:~:text=Substitution%20models%20are%20used%20to,as%20Bayesian%20inference%20in%20phylogeny.) of the wnv evolution. In phylogeny, estimates of evolutionary distances (numbers of substitutions that have occurred since a pair of sequences diverged from a common ancestor) are typically calculated using substitution models. The model we created has two paramenters: $\Pi$, a vector with the frequences $\pi_i$ of each nucleotide in the sequence and Q a matrix which describes the rate at which bases of one type change into the bases of another type.
@@ -54,21 +56,45 @@ On the rows of the matrix there are the rates of mutations from all the bases to
 
 The multiplication of the rate matrix with the vector of base frequences, gives the rate of change of the nucleotide frequences: $\Pi'=Q*\Pi$
 
-A lot of formulas to write
+These kind of models are just systems of differentials equations, they are used to eastimate the distance between two sequences, the rates contained in the matrix Q, give us a direcction in which the sequence is evolving, by comparing our sequence with another one we can understand how they are placed in time one with respect to the other.
 
-[eigen decomposition explanation](eigen_decomposition.ipynb)
+Since we already built the tree we are not interested in estimating the branch length or the evolutionary distance between sequences, we are building this model just to have an understanding of the math underneath phylogeny and to test the equilibrium probabilities of the sequence.
+
+The peculiarity of this GTR is that eventually the nucleotides frequences of the sequence will reach an equilibrium, and we can compute the values at equilibrium. Furthermore, if we assume that the wnv has a long evolutionary history, we can hypothise that its nucleotide frequences (in the synonymous sites) are already at equilibrium (we comuted these probabilities through the [nucleotide_rates.py](nucleotide_rates.py) script).
+
+The equation that we need to solve is the following: $\Pi=e^{Q*t}*\Pi_0$
+
+We can solve this by expressing the matrix Q in its eigenbasis, we find the solution in this trivial state, and then we go back.
+
+If you go thorugh all the passages, you should obtain something like this: $\Pi=A_0*e^{D*t}*V}, where, V is a matrix with the eigenvectors of Q on the columns, D is the diagonalisation of Q and A_0 is the matrix containing the initial conditions (whatever condition we want, each possible initial state will give the same final equilibrium probabilities) expressed in eigenbasis.
+
+The resulting formula is: $\P(t)=\sum a^0_i*e^{\lambda _i *t}*v_i$
+
+In order to express the starting conditions in the eigenbasis we have to exploit the left and right eigenvectors of Q and one of their properties, these passages are very well explained in [this document](eigen_decomposition.ipynb)
+
+The final product is wrapped up in the [GTR.py](GTR.py) script, where we have plotted the frequences of the nucleotides in time:
 
 ![GTR](images/Figure_3.jpeg)
 
+The final frequences that we obtain are: A=0.25, C=0.19, T=0.29, G=0.26.
+
+While the empirical probabilities that we measured on the wnv sequence were: A=0.24, C=0.26, T=0.19, G=0.29.
+
+These results suggest that probably our model is not perfectly able to predict the behaviour of the wnv sequences, this could be due to the fact that on the sequence is acting some kind of natural selection.
+
 ### Dn/Ds
 
-Deepened analyses were carried out on the mutations, a rigorous way of defining synonymous and non-synonymous mutations was implemented.
+More in-depth analyses were carried out on the mutations, a rigorous way of defining synonymous and non-synonymous mutations was implemented in the [mutation_rates.py](mutation_rates.py) script.
 
-With the [KaKs_ratio.py](KaKs_ratio.py) script, we compute the ratio in a sliding window over the genome.
+To understand if some kind of selection was acting on the sequences we computed the Dn/Ds ratio on the whole sequence. With the [KaKs_ratio.py](KaKs_ratio.py) script, we compute the ratio in a sliding window over the genome.
 
 ![Dn/Ds](images/Figure_2.jpeg)
 
+As you can see from the results the Ka/Ks is very low in the whole sequence, this suggests that every change from the current sequences are very much counterselected, this could explain the differences that we saw between the empirical nucleotide sequences and the ones estimated by the model.
+
 ### Secondary structures
+
+
 
 With the [secondary_structures.py](secondary_structures.py) script, we compute the number of synonymous mutations in a sliding window over the genome.
 
