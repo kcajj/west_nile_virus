@@ -1,19 +1,10 @@
-import json
 from Bio import SeqIO
 import numpy as np
 import matplotlib.pyplot as plt
-from bs4 import BeautifulSoup
 
 from mutation_rates import get_mutation_rates, get_genetic_code
 
-alphabet='ACTG'
-cds_start=96 #the sequence annotation is in base 1, here the sequence starts from 0, so the first codon is 96-97-98
-cds_end=10395
-reference=SeqIO.read('wnv/config/reference.gb','gb').seq
-
-genetic_code=get_genetic_code()
-
-def characterise_mutation_site(codon, offset):
+def characterise_mutation_site(codon, offset, genetic_code, alphabet):
     synonym=0
     original_nuc=codon[offset]
     original_a=genetic_code[codon]
@@ -37,9 +28,11 @@ def characterise_mutation_site(codon, offset):
 #for each window on the cds compute the ratio of nonsynonymus mutations over the nonsynonymus sites and 
 #the ratio of synonymus mutations over synonyms sites, then compute the ratio of the two ratios
 
-def plot_secondary_structures(k):
-    res = get_mutation_rates("wnv/results/ancestral_node_data.json")
+def plot_secondary_structures(k,reference,cds_start,cds_end,alphabet):
+
+    res = get_mutation_rates("wnv/results/ancestral_node_data.json",reference,cds_start,cds_end,alphabet)
     synonym_distribution = res["syn_distribution"]
+    genetic_code=get_genetic_code(alphabet)
 
     cds=reference[cds_start: cds_end]
     synonym_sites_distribution=[0 for i in range(len(synonym_distribution))]
@@ -47,7 +40,7 @@ def plot_secondary_structures(k):
         codon_offset=pos%3
         codon=cds[pos-codon_offset:pos+(3-codon_offset)]
         
-        synonym_site=characterise_mutation_site(codon, codon_offset)
+        synonym_site=characterise_mutation_site(codon, codon_offset, genetic_code, alphabet)
         synonym_sites_distribution[pos]=synonym_site
 
     scores=np.zeros([len(synonym_distribution)-k])

@@ -3,7 +3,7 @@ from Bio import SeqIO
 import numpy as np
 import matplotlib.pyplot as plt
 
-from nucleotides_rates import create_mut_matrix, get_nuc_usage
+from nucleotides_rates import get_nuc_usage
 from mutation_rates import get_genetic_code, get_mutation_rates
 from secondary_structures import plot_secondary_structures
 from KaKs_ratio import plot_dnds_ratio
@@ -14,13 +14,13 @@ cds_end=10395
 reference=SeqIO.read('wnv/config/reference.gb','gb').seq
 k=50
 
-nuc_empirical_sequences=get_nuc_usage(reference,cds_start,cds_end)
+nuc_empirical_sequences=get_nuc_usage(reference,cds_start,cds_end,alphabet)
 
-secondary=plot_secondary_structures(k)
+secondary=plot_secondary_structures(k,reference,cds_start,cds_end,alphabet)
 print(secondary['sec_struct'])
 print('the secondary structure seems to extend from', 3475+96, 'to', 3523+96)
 
-dnds=plot_dnds_ratio(k)
+dnds=plot_dnds_ratio(k,reference,cds_start,cds_end,alphabet)
 print(dnds['avg_ratio'])
 
 plt.show()

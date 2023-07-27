@@ -3,8 +3,8 @@ from Bio import SeqIO
 import numpy as np
 import matplotlib.pyplot as plt
 
-from nucleotides_rates import create_mut_matrix, get_nuc_usage
-from mutation_rates import get_mutation_rates
+from nucleotides_rates import get_nuc_usage
+from mutation_rates import create_mut_matrix, get_mutation_rates
 
 alphabet='ACTG'
 cds_start=96 #the sequence annotation is in base 1, here the sequence starts from 0, so the first codon is 96-97-98
@@ -13,7 +13,7 @@ reference=SeqIO.read('wnv/config/reference.gb','gb').seq
 
 nuc_usage=get_nuc_usage(reference,cds_start,cds_end)
 print(nuc_usage)
-res = get_mutation_rates("wnv/results/ancestral_node_data.json")
+res = get_mutation_rates("wnv/results/ancestral_node_data.json",reference,cds_start,cds_end,alphabet)
 synonym_counts = res["syn_counts"]
 total_synonym_mut = res['tot_syn_mut']
 

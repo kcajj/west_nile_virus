@@ -3,6 +3,7 @@ metadata_file = 'data/processed_metadata.csv'
 reference_file = 'config/reference.gb'
 annotation_file = 'config/reference.gb'
 lat_longs_file = 'config/lat_longs.tsv'
+
 rule all:
     input:
         auspice_json = "auspice/wnv.json",

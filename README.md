@@ -2,7 +2,7 @@
 
 This GitHub repository aims to sum up an evolutionary analysis performed on the [West Nile virus](https://en.wikipedia.org/wiki/West_Nile_virus).
 
-This work is part of the Biozentrum Research Summer project 2023, at Richard Neher lab.
+This work is part of the Biozentrum Research Summer project 2023, carried out at Richard Neher lab.
 
 ## Index
 
@@ -14,7 +14,7 @@ The analysis consists in the following steps:
     - Dn/Ds
     - Research of secondary structures
 
-## Nextstrain
+## Nextstrain Workflow
 
 [Nextstrain](https://nextstrain.org/) is an open-source project to harness the scientific and public health potential of pathogen genome data.
 
@@ -39,11 +39,11 @@ The workflow is in the form of a [Snakefile](wnv/Snakefile), the nextstrain func
 A detailed description of each funciton can be found [here](https://docs.nextstrain.org/projects/augur/en/stable/).
 You can find the output of each tool in the [result](wnv/results/) folder, these are all the files that we will use in our successive analyses and that were used by auspice to build the graphical representation of the workflow. To look at the finished Nextstrain workflow you should install nextstrain on your device and run the "nextstrain view" function on the [auspice](wnv/auspice/) folder.
 
-## Analysis of the mutations of the tree
+## Analysis of the mutations
 
 After having created the nextstrain workflow we shifted our focus on the mutations that have occurred on the West Nile virus sequences. Thanks to Augur, we have all of the estimated ancestral sequences, together with their mutations, of the whole tree, they are stored in the [ancestral_node_data.json](wnv/results/ancestral_node_data.json) file.
 
-Just by loading the tree and going though each node, we can see each mutation ever happened in the wnv sequence. In order to understand the evolution that happened in west nile virus we want to look at the regions that are free to change, with no selective pression, a rough way to do so, is to consider only the mutations happening in the third position of each codon.
+Just by loading the tree and going though each node, we can see each mutation ever happened in the history of wnv sequences. In order to understand the evolution that happened in west nile virus we want to look at the regions that are free to change, with no selective pression, a rough way to do so, is to consider only the mutations happening in the third position of each codon.
 
 Each mutation is indicated as starting_nucleotide-position-mutated_nucleotide. We computed the mutation rates of each directed mutation (starting_nucleotide-->mutated_nucleotide), taking special care of the first set of mutations from the root: the root of a nextstrain tree corresponds to the sequence of one of the two branches (the longest one) and all of the mutations are considered in one direction from a child to the other, to have a more coherent count, we should count these mutations as occurring in both directions (1/2 for each direction).
 

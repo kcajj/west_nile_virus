@@ -1,17 +1,15 @@
 import json
-from Bio import SeqIO
-import numpy as np
-import matplotlib.pyplot as plt
 from bs4 import BeautifulSoup
 
-from nucleotides_rates import create_mut_matrix
+def create_mut_matrix(alphabet):
+    m={}
+    for i in alphabet:
+        for j in alphabet:
+            if not i==j:
+                m[i+j]=0
+    return m
 
-alphabet='ACTG'
-cds_start=96 #the sequence annotation is in base 1, here the sequence starts from 0, so the first codon is 96-97-98
-cds_end=10395
-reference=SeqIO.read('wnv/config/reference.gb','gb').seq
-
-def get_genetic_code():
+def get_genetic_code(alphabet):
     genetic_code={}
     with open('genetic-code.html') as page:
         gencodepage=BeautifulSoup(page,'html.parser')
@@ -28,7 +26,7 @@ def get_genetic_code():
 def is_synonym(from_codon, to_codon, genetic_code):
     return genetic_code[from_codon]==genetic_code[to_codon]
 
-def get_mutation_rates(mutation_json_name):
+def get_mutation_rates(mutation_json_name,reference,cds_start,cds_end,alphabet):
     
     children_of_root=[]
     #finds the children of the root and adds them to a list
@@ -44,7 +42,7 @@ def get_mutation_rates(mutation_json_name):
     synonym_distribution=[0 for i in range(cds_start,cds_end)]
     non_synonym_distribution=[0 for i in range(cds_start,cds_end)]
 
-    genetic_code=get_genetic_code()
+    genetic_code=get_genetic_code(alphabet)
 
     #counts the mutations, the root mutations are counted half in one direciton and half in the other
     with open(mutation_json_name) as augur:
@@ -93,12 +91,3 @@ def get_mutation_rates(mutation_json_name):
     return {"syn_distribution": synonym_distribution, "nonsyn_distribution":non_synonym_distribution, 
             "syn_counts":synonym_counts, "nonsyn_counts": non_synonym_counts,
             "tot_syn_mut":total_synonym_mut, "tot_nonsyn_mut":total_non_synonym_mut}
-
-if __name__=="__main__":
-    res = get_mutation_rates("wnv/results/ancestral_node_data.json")
-    synonym_counts = res["syn_counts"]
-    non_synonym_counts = res["nonsyn_counts"]
-    print('synonym')
-    print(synonym_counts)
-    print('non synonym')
-    print(non_synonym_counts)
