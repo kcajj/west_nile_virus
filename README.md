@@ -62,11 +62,11 @@ Since we already built the tree we are not interested in estimating the branch l
 
 The peculiarity of this GTR is that eventually the nucleotides frequences of the sequence will reach an equilibrium, and we can compute the values at equilibrium. Furthermore, if we assume that the wnv has a long evolutionary history, we can hypothise that its nucleotide frequences (in the synonymous sites) are already at equilibrium (we comuted these probabilities through the [nucleotide_rates.py](nucleotide_rates.py) script).
 
-The equation that we need to solve is the following: $\Pi=e^{Q*t}*\Pi_0$
+The equation that we need to solve is the following: $\Pi =e^{Q*t}*\Pi _0$
 
 We can solve this by expressing the matrix Q in its eigenbasis, we find the solution in this trivial state, and then we go back.
 
-If you go thorugh all the passages, you should obtain something like this: $\Pi=A_0*e^{D*t}*V$, where, V is a matrix with the eigenvectors of Q on the columns, D is the diagonalisation of Q and A_0 is the matrix containing the initial conditions (whatever condition we want, each possible initial state will give the same final equilibrium probabilities) expressed in eigenbasis.
+If you go thorugh all the passages, you should obtain something like this: $\Pi =A_0*e^{D*t}*V$, where, V is a matrix with the eigenvectors of Q on the columns, D is the diagonalisation of Q and A_0 is the matrix containing the initial conditions (whatever condition we want, each possible initial state will give the same final equilibrium probabilities) expressed in eigenbasis.
 
 The resulting formula is: $\Pi(t)=\sum a^0_i*e^{\lambda _i *t}*v_i$
 
