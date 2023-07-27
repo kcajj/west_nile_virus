@@ -66,7 +66,7 @@ The equation that we need to solve is the following: $\Pi = e^{Q*t} * \Pi _0$
 
 We can solve this by expressing the matrix Q in its eigenbasis, we find the solution in this trivial state, and then we go back.
 
-If you go thorugh all the passages, you should obtain something like this: $\Pi = A_0 * e^{ \Lambda * t} * V$, where, V is a matrix with the eigenvectors of Q on the columns, $\Lamda$ is a vector containing the eigenvalues of Q and A_0 is the matrix containing the initial conditions (whatever condition we want, each possible initial state will give the same final equilibrium probabilities) expressed in eigenbasis.
+If you go thorugh all the passages, you should obtain something like this: $\Pi = A_0 * e^{ \Lambda * t} * V$, where, V is a matrix with the eigenvectors of Q on the columns, $\Lambda$ is a vector containing the eigenvalues of Q and A_0 is the matrix containing the initial conditions (whatever condition we want, each possible initial state will give the same final equilibrium probabilities) expressed in eigenbasis.
 
 The resulting formula is: $\Pi(t)=\sum a^0_i*e^{\lambda _i *t}*v_i$
 
