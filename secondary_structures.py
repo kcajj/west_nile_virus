@@ -1,4 +1,3 @@
-from Bio import SeqIO
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -28,9 +27,9 @@ def characterise_mutation_site(codon, offset, genetic_code, alphabet):
 #for each window on the cds compute the ratio of nonsynonymus mutations over the nonsynonymus sites and 
 #the ratio of synonymus mutations over synonyms sites, then compute the ratio of the two ratios
 
-def plot_secondary_structures(k,reference,cds_start,cds_end,alphabet):
+def plot_secondary_structures(k,reference,cds_start,cds_end,alphabet,tree_node_data):
 
-    res = get_mutation_rates("wnv/results/ancestral_node_data.json",reference,cds_start,cds_end,alphabet)
+    res = get_mutation_rates(tree_node_data,reference,cds_start,cds_end,alphabet)
     synonym_distribution = res["syn_distribution"]
     genetic_code=get_genetic_code(alphabet)
 

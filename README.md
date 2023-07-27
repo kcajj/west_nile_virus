@@ -53,6 +53,8 @@ A lot of formulas to write
 
 [eigen decomposition explanation](eigen_decomposition.ipynb)
 
+![GTR](images/Figure_3.jpeg)
+
 ### Dn/Ds
 
 Deepened analyses were carried out on the mutations, a rigorous way of defining synonymous and non-synonymous mutations was implemented.
