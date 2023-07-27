@@ -7,7 +7,6 @@ from mutation_rates import create_mut_matrix, get_mutation_rates
 def plot_GTR(reference,cds_start,cds_end,alphabet,tree_node_data):
 
     nuc_usage=get_nuc_usage(reference,cds_start,cds_end,alphabet)
-    print(nuc_usage)
     res = get_mutation_rates(tree_node_data,reference,cds_start,cds_end,alphabet)
     synonym_counts = res["syn_counts"]
     total_synonym_mut = res['tot_syn_mut']
@@ -15,16 +14,14 @@ def plot_GTR(reference,cds_start,cds_end,alphabet,tree_node_data):
     dictQ=create_mut_matrix(alphabet)
     for mut in dictQ:
         dictQ[mut]=(synonym_counts[mut]/total_synonym_mut)
-    print('just mutation frequences')
-    print(dictQ)
+    
     diagonal_rates=create_nuc_count_matrix(alphabet)
     for mut in dictQ:
         diagonal_rates[mut[0]]+=-dictQ[mut]
 
-    print('also diagonal frequences')
+    #adding diagonal frequences
     for letter in diagonal_rates:
         dictQ[letter+letter]=diagonal_rates[letter]
-    print(dictQ)
 
     #from dictionary to matrix
     print('matrix Q:')
@@ -35,12 +32,10 @@ def plot_GTR(reference,cds_start,cds_end,alphabet,tree_node_data):
     Q=Q.T
     print(Q)
 
-    print('empirical probabilities (should be equal to the predicted equilibrium probabilities)')
     control_eq_p=[[],[]]
     for i in nuc_usage['nuc_usage_nonsyn']:
         control_eq_p[0].append(nuc_usage['nuc_usage_syn'][i])
         control_eq_p[1].append(nuc_usage['nuc_usage_nonsyn'][i])
-    print(control_eq_p)
 
     print('initial conditions')
     initial=np.array([1,0,0,0])
