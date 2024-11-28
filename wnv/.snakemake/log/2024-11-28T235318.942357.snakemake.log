@@ -1,0 +1,47 @@
+Building DAG of jobs...
+Using shell: /home/giacomo/.nextstrain/runtimes/conda/env/bin/bash
+Provided cores: 4
+Rules claiming more threads will be scaled down.
+Job stats:
+job               count
+--------------  -------
+aligning              1
+all                   1
+build_tree            1
+export                1
+filtering             1
+find_ancestors        1
+refining              1
+traits                1
+translating           1
+total                 9
+
+Select jobs to execute...
+
+[Thu Nov 28 23:53:19 2024]
+rule filtering:
+    input: data/west-nile_nuc_2024-11-28T2226.fasta, results/index.tsv, data/west-nile_metadata_2024-11-28T2226.tsv
+    output: results/filtered_sequences.fa, results/filtered_metadata.tsv
+    jobid: 4
+    reason: Missing output files: results/filtered_metadata.tsv, results/filtered_sequences.fa; Updated input files: results/index.tsv, data/west-nile_metadata_2024-11-28T2226.tsv, data/west-nile_nuc_2024-11-28T2226.fasta
+    resources: tmpdir=/tmp
+
+
+        augur filter             --sequences data/west-nile_nuc_2024-11-28T2226.fasta            --sequence-index results/index.tsv            --metadata data/west-nile_metadata_2024-11-28T2226.tsv            --metadata-id-columns 'accession'            --group-by geoLocCountry            --subsample-max-sequences 1000            --probabilistic-sampling            --output results/filtered_sequences.fa            --output-metadata results/filtered_metadata.tsv
+        
+[Thu Nov 28 23:53:19 2024]
+Error in rule filtering:
+    jobid: 4
+    input: data/west-nile_nuc_2024-11-28T2226.fasta, results/index.tsv, data/west-nile_metadata_2024-11-28T2226.tsv
+    output: results/filtered_sequences.fa, results/filtered_metadata.tsv
+    shell:
+        
+        augur filter             --sequences data/west-nile_nuc_2024-11-28T2226.fasta            --sequence-index results/index.tsv            --metadata data/west-nile_metadata_2024-11-28T2226.tsv            --metadata-id-columns 'accession'            --group-by geoLocCountry            --subsample-max-sequences 1000            --probabilistic-sampling            --output results/filtered_sequences.fa            --output-metadata results/filtered_metadata.tsv
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Removing output files of failed job filtering since they might be corrupted:
+results/filtered_sequences.fa, results/filtered_metadata.tsv
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2024-11-28T235318.942357.snakemake.log

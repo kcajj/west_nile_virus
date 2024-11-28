@@ -1,3 +1,7 @@
+!!! The pipeline was updated with [Pathoplexus](https://pathoplexus.org/) data. I was curious to try out this new database and to give a look at the recent spread of wnv. All the detailed explanation below refers to the second last commit !!!
+
+Also, during the last semester of my bachelor in Genomics at UniBo, I got the chance to present this project to an enthusiast virologist, Prof. Laura Menotti, as part of the Viral Genetics course. You can find the presentation [here](WNV_with_nextstrain.pdf).
+
 # West Nile virus
 
 This GitHub repository aims to sum up an evolutionary analysis performed on the [West Nile virus](https://en.wikipedia.org/wiki/West_Nile_virus).

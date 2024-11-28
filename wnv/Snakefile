@@ -1,5 +1,5 @@
-sequences_file = 'data/sequences.fasta'
-metadata_file = 'data/processed_metadata.csv'
+sequences_file = 'data/pathoplexus_sequences.fasta'
+metadata_file = 'data/pathoplexus_metadata.tsv'
 reference_file = 'config/reference.gb'
 annotation_file = 'config/reference.gb'
 lat_longs_file = 'config/lat_longs.tsv'
@@ -28,7 +28,7 @@ rule filtering:
         metadata = metadata_file
     output:
         filtered_sequences = 'results/filtered_sequences.fa',
-        filtered_metadata = 'results/filtered_metadata.csv'
+        filtered_metadata = 'results/filtered_metadata.tsv'
     shell:
         """
         augur filter \
@@ -144,7 +144,7 @@ rule traits:
             --tree {input.tree}\
             --metadata {input.metadata}\
             --metadata-id-columns 'Accession'\
-            --columns Country Division Host\
+            --columns Country Host\
             --confidence\
             --output-node-data {output.node_data}
         """
@@ -168,8 +168,8 @@ rule export:
             --metadata-id-columns 'Accession'\
             --node-data {input.branch_lengths} {input.traits} {input.nt_muts} {input.aa_muts}\
             --include-root-sequence \
-            --geo-resolution Country Division\
-            --color-by Country Division Host\
+            --geo-resolution Country\
+            --color-by Country Host\
             --lat-longs {input.lat_longs}\
             --output {output.auspice_json}
         """
